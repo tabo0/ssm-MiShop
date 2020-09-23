@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace配置为数据访问层的接口的 包名.接口名称  -->
+<mapper namespace="com.oracle.mapper.CustomerMapper">
+<!--    用户注册-->
+    <insert id="customerRegister">
+        insert into customer(cname, cpass)
+        values(#{cname}, #{cpass})
+    </insert>
+
+<!--    检查账号是否存在-->
+    <select id="checkCname">
+        select count(1)
+        from customer
+        where cname = #{cname}
+    </select>
+
+<!--    用户登录-->
+    <select id="customerLogin" resultType="com.oracle.entity.Customer">
+        select cid, cname
+        from customer
+        where cname = #{cname} and cpass = #{cpass}
+    </select>
+</mapper>

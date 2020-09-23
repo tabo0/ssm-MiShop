@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.mapper.OrderMapper">
+    <select id="getOrderPage" resultType="java.util.HashMap">
+        <bind name="offset" value="page*pagesize-pagesize"/>
+        select o.*, address, a.cnee as cname
+        from xmorder o,address a
+        where o.addressId = a.addressId
+        order by odate desc
+        limit #{offset}, #{pagesize};
+    </select>
+
+    <select id="getRowCount" resultType="java.lang.Integer">
+        select count(1)
+        from xmorder;
+    </select>
+</mapper>

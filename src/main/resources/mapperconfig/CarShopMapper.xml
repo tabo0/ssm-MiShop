@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace配置为数据访问层的接口的 包名.接口名称  -->
+<mapper namespace="com.oracle.mapper.CarShopMapper">
+<!--    添加进购物车-->
+    <insert id="addCarShop">
+        insert into carshop
+        values(default, #{customerid}, #{productid}, #{numbers})
+    </insert>
+
+<!--    获取购物车的信息-->
+    <select id="getCarShop" resultType="java.util.HashMap">
+        select p.*, c.numbers, c.id as cid
+        from product p, carshop c
+        where c.customerid = #{customerid} and p.id = c.productid
+    </select>
+
+<!--    查询购物车信息-->
+    <select id="getCarShopByCustomerIdAndProductId" resultType="java.lang.Integer">
+        select count(1)
+        from carshop
+        where customerid = #{customerid} and productid = #{productid}
+    </select>
+
+<!--    更新购物车数量-->
+    <update id="updateCarShopByCustomerIdAndProductId">
+        update carshop
+        set numbers = numbers + #{numbers}
+        where customerid = #{customerid} and productid = #{productid}
+    </update>
+
+<!--    删除购物车的信息-->
+    <delete id="delCarShopByCidAndCustomerId">
+        delete
+        from carshop
+        where id = #{cid} and customerid = #{customerid}
+    </delete>
+</mapper>

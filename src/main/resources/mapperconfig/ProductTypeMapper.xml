@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace配置为数据访问层的接口的 包名.接口名称  -->
+<mapper namespace="com.oracle.mapper.ProductTypeMapper">
+<!--    获取所有商品类型-->
+    <select id="getAllProductType" resultType="com.oracle.entity.ProductType">
+        select *
+        from producttype
+    </select>
+
+<!--    获取总行数-->
+    <select id="getProductTypeRowCount" resultType="java.lang.Integer" >
+        <bind name="typename" value="'%'+typename+'%'"/>
+        select count(1)
+        from producttype
+        where 1=1
+            <if test="typename!=null and typename!=''">
+                and name like #{typename}
+            </if>
+    </select>
+
+    <!--    获取总行数 (Ajax方法)-->
+    <select id="getProductTypeRowCountAjax" resultType="java.lang.Integer" >
+        select count(1)
+        from producttype
+        where 1=1
+            <if test="typeId!=-1">
+                and id = #{typeId}
+            </if>
+            <if test="typeName!=null and typeName!=''">
+                <bind name="typeName" value="'%'+typeName+'%'"/>
+                and name like #{typeName}
+            </if>
+    </select>
+
+<!--    通过id获取商品类型-->
+    <select id="selectProductTypeById" resultType="com.oracle.entity.ProductType">
+        select pt.*
+        from producttype pt
+        where pt.id = #{id}
+    </select>
+
+<!--    新增商品类型-->
+    <insert id="insertProductType">
+        insert into producttype(id, name)
+        values(#{productType.id}, #{productType.name})
+    </insert>
+
+<!--    通过id删除商品类型-->
+    <delete id="deleteProductTypeById">
+        delete
+        from producttype
+        where id = #{id}
+    </delete>
+
+<!--    通过id修改商品类型-->
+    <update id="updateProductTypeById">
+        update producttype
+        set name = #{productType.name}
+        where id = #{productType.id}
+    </update>
+
+<!--    分页显示-->
+    <select id="getProductTypePage" resultType="com.oracle.entity.ProductType">
+        <bind name="offset" value="page*pagesize - pagesize"/>
+        <bind name="typename" value="'%'+typename+'%'"/>
+        select *
+        from producttype
+        where 1=1
+            <if test="typename!=null and typename!=''">
+                and name like #{typename}
+            </if>
+        limit #{offset}, #{pagesize}
+    </select>
+
+    <!--    分页显示 (Ajax方法)-->
+    <select id="getProductTypePageAjax" resultType="com.oracle.entity.ProductType">
+        <bind name="offset" value="page*pagesize - pagesize"/>
+        select *
+        from producttype
+        where 1=1
+            <if test="typeId!=-1">
+                and id = #{typeId}
+            </if>
+            <if test="typeName!=null and typeName!=''">
+                <bind name="typeName" value="'%'+typeName+'%'"/>
+                and name like #{typeName}
+            </if>
+        limit #{offset}, #{pagesize}
+    </select>
+</mapper>

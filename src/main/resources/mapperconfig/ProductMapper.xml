@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace配置为数据访问层的接口的 包名.接口名称  -->
+<mapper namespace="com.oracle.mapper.ProductMapper">
+<!--    无分页实现-->
+<!--    <select id="getAllProduct" resultType="java.util.HashMap">-->
+<!--        select p.*, pt.name as typename-->
+<!--        from product p inner join producttype pt-->
+<!--        on p.typeid = pt.id-->
+<!--    </select>-->
+
+<!--    有分页实现-->
+    <!--    获取分页的数据-->
+    <select id="getProductsByPage" resultType="java.util.HashMap">
+        <bind name="offset" value="page*pagesize-pagesize" />
+        select p.*, pt.name as typename
+        from product p left join producttype pt
+        on p.typeid = pt.id
+        where 1=1
+            <if test="name!=null and name!=''">
+                <bind name="testname" value="'%'+name+'%'"/>
+                and p.name like #{testname}
+            </if>
+            <if test="typeid!=-1">
+                and typeid = #{typeid}
+            </if>
+        order by date desc
+        limit #{offset}, #{pagesize}
+    </select>
+
+    <!--    获取总行数-->
+    <select id="getRowCount" resultType="java.lang.Integer">
+        select count(1)
+        from product
+        where 1=1
+            <if test="name!=null and name!=''">
+                <bind name="testname" value="'%'+name+'%'"/>
+                and name like #{testname}
+            </if>
+            <if test="typeid!=-1">
+                and typeid = #{typeid}
+            </if>
+    </select>
+
+<!--    删除商品-->
+    <delete id="delProductById">
+        delete
+        from product
+        where id = #{id}
+    </delete>
+
+<!--    批量删除-->
+    <delete id="delBatchProduct">
+        delete
+        from product
+        where id in
+            <foreach collection="array" open="(" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+    </delete>
+
+<!--    获取数据-->
+    <select id="getProductById" resultType="com.oracle.entity.Product">
+        select *
+        from product
+        where id = #{id}
+    </select>
+
+<!--    修改数据-->
+    <update id="updateProduct">
+        update product
+        set name = #{product.name}, content = #{product.content},
+            price = #{product.price}, image = #{product.image},
+            number = #{product.number}, typeid = #{product.typeid}, date = #{product.date}
+        where id = #{product.id}
+    </update>
+
+<!--    添加数据-->
+    <insert id="addProduct">
+        insert into product(name, content, price, image, number, typeid, date)
+        values(#{product.name}, #{product.content}, #{product.price},
+               #{product.image}, #{product.number}, #{product.typeid}, #{product.date})
+    </insert>
+
+    <select id="getFiveProducts" resultType="com.oracle.entity.Product">
+        select p.*
+        from product p, producttype pt
+        where p.typeid = pt.id and pt.name = "手机"
+        order by date desc
+        limit 0, 5
+    </select>
+</mapper>
