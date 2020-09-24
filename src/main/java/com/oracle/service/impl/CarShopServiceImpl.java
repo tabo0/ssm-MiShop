@@ -38,4 +38,10 @@ public class CarShopServiceImpl implements CarShopService
     {
         return carShopMapper.delCarShopByCidAndCustomerId(cid, customerid);
     }
+
+    @Override
+    public int updateNumbers(int cid, int num)
+    {
+        return carShopMapper.updateNumbers(cid, num);
+    }
 }

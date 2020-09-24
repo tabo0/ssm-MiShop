@@ -36,4 +36,11 @@
         from carshop
         where id = #{cid} and customerid = #{customerid}
     </delete>
+
+<!--    修改购物车的数量-->
+    <update id="updateNumbers">
+        update carshop
+        set numbers = #{num}
+        where id = #{cid}
+    </update>
 </mapper>

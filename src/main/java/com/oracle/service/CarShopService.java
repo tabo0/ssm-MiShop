@@ -13,4 +13,7 @@ public interface CarShopService
 
     //删除购物车的信息
     int delCarShopByCidAndCustomerId(int cid, int customerid);
+
+    //修改购物车的数量
+    int updateNumbers(int cid, int num);
 }

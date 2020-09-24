@@ -268,18 +268,18 @@
                     <td width="400">
                             ${car.content}</td>
                     <td width="100">${car.price}</td>
-                    <td width="210">
+                    <td width="300">
                         <c:if test="${car.numbers>1}">
-                            <a href="javascript:changeN(${car.id} ${car.numbers-1})">－</a>
+                            <a href="javascript:changeN(${car.id}, ${car.numbers-1})">－</a>
                         </c:if>
                         <c:if test="${car.numbers==1}">
                             -
                         </c:if>
-                        <input type="text" readonly="readonly" value="${car.numbers}"
-                               style="width: 40px; height: 30px; line-height: 30px;border: 0;text-align: center;font-size: 26px;color:#FF7E00 "/>
-                        <a href="javascript:changeN(${car.id} ${car.numbers+1})">＋</a>
+                        <input type="text" id="numbers" value="${car.numbers}"
+                               style="width: 100px; height: 30px; line-height: 30px;border: 0;text-align: center;font-size: 26px;color:#FF7E00 "/>
+                        <a href="javascript:changeN(${car.id}, ${car.numbers+1})">＋</a>
                     </td>
-                    <td width="200" style="color: #FF7E00;">${car.price*car.numbers }元</td>
+                    <td width="200" style="color: #FF7E00;">${car.price*car.numbers}元</td>
                     <c:set var="total" value="${total+car.price*car.numbers}"></c:set>
                     <td width="100">
                         <a href="${(pageContext.request.contextPath)}/deletecarshop?cid=${car.cid}&customerid=${customer.cid}"
@@ -303,7 +303,8 @@
                 url: "${pageContext.request.contextPath}/changenumber",
                 data: "cid=" + cid + "&num=" + num,
                 success: function () {
-                    window.location.href = "";
+                    // window.location.href = "";
+                    $("#numbers").val(num);
                 }
             });
         }
@@ -328,7 +329,7 @@
 				<span style="display: block; width: 200px; height: 50px; line-height: 50px; background-color: #FF7E00; font-size: 26px; text-align: center;"
                       onmouseover="this.style.color='white';"
                       onmouseout="this.style.color='black';">
-					去结算 </span>
+					<a href="${pageContext.request.contextPath}/toorderpay">去结算</a></span>
             </div>
         </div>
     </div>

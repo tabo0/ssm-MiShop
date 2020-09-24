@@ -26,4 +26,7 @@ public interface CarShopMapper
 
     //删除购物车的信息
     int delCarShopByCidAndCustomerId(@Param("cid")int cid, @Param("customerid")int customerid);
+
+    //修改购物车的数量
+    int updateNumbers(@Param("cid")int cid, @Param("num")int num);
 }

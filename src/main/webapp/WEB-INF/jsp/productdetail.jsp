@@ -99,7 +99,7 @@
             text-decoration: none;
             color: #BDBDBD;
             font-family: 黑体;
-            /*font-size: 14;*/
+            font-size: 14px;
         }
 
         #topbar a:hover {
@@ -140,7 +140,7 @@
             text-decoration: none;
             color: black;
             font-family: 黑体;
-            /*font-size: 16;*/
+            font-size: 16px;
         }
 
         #menu_nav a:hover {

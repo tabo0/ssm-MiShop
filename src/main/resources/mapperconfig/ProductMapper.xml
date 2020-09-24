@@ -86,7 +86,8 @@
     <select id="getFiveProducts" resultType="com.oracle.entity.Product">
         select p.*
         from product p, producttype pt
-        where p.typeid = pt.id and pt.name = "手机"
+--         where p.typeid = pt.id and pt.name = "手机"
+        where p.typeid = pt.id
         order by date desc
         limit 0, 5
     </select>
